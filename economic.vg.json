@@ -1,0 +1,56 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 590,
+  "height": 450,
+  "data": {"url": "https://raw.githubusercontent.com/joelle02/3179_A2/main/countries%20of%20the%20world.csv"},
+  "mark": {"type": "bar", "orient": "vertical"},
+  "transform": [
+    {"filter": "isValid(datum.Agriculture) && isValid(datum.Industry) && isValid(datum.Service)"},
+    {"fold": ["Agriculture", "Industry", "Service"], "as": ["Economic_Sector", "Percentage"]},
+    {"calculate": "datum.Percentage * 100", "as": "Percentage" },
+    {"calculate": "datum.Percentage * datum['GDP($_per_capita)'] / 100", "as": "Sector_GDP"},
+    {"filter": {"field": "Region", "selection": "regionClick"}},
+    {"sort": "Sector_GDP"}, 
+    {"stack": "Sector_GDP", "groupby": ["Country"]} 
+  ],
+  "encoding": {
+    "y": {"field": "Sector_GDP", "type": "quantitative", "title": "Total GDP" },
+    "x": {"field" : "Country", "type": "nominal" },
+    "color": {
+      "field": "Economic_Sector",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Agriculture", "Industry", "Service"],
+        "range": ["#B4E051", "#aec7e8", "#0079cadb"]
+      },
+      "title": "Economic Sector"
+    },
+    "tooltip": [
+      {"field": "Country", "type": "nominal", "title": "Country:" },
+      {"field": "Economic_Sector", "type": "nominal", "title": "Economic Sector" },
+      {"field": "Percentage", "type": "quantitative", "title": "Percentage (%)" },
+      {"field": "Sector_GDP", "type": "quantitative", "title": "Sector GDP" }
+    ]
+  },
+  "config": {
+    "axisX": {
+      "labelAngle": 45 
+    }
+  },
+  "selection": {
+    "regionClick": {
+      "type": "single", 
+      "fields": ["Region"],
+      "init": "ASIA (EX. NEAR EAST)",
+      "bind": {
+        "input": "select", 
+        "name": "Region Selector",
+        "options": [
+          "ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE",
+          "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA",
+          "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"
+        ]
+      }
+    }
+  }
+}

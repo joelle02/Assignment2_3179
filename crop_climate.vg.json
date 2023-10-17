@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 680,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/joelle02/3179_A2/main/countries%20of%20the%20world.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Climate": "number"
+      }
+    },
+    "transform": [
+      {"filter": "datum.Climate !== 1.5 && datum.Climate !== 2.5"}
+    ]
+  },
+  "mark": {"type": "point", "filled": true, "opacity": 0.5, "size": 120},
+  "encoding": {
+    "x": {
+      "field": "Climate",
+      "type": "ordinal",
+      "title": "Climate Type",
+      "scale": {"domain": [1, 2, 3, 4]}
+    },
+    "y": {"field": "Crops(%)", "type": "quantitative", "title": "Percentage of Crops"},
+    "tooltip": [
+      {"field": "Country", "type": "nominal", "title": "Country:"},
+      {"field": "Crops(%)", "type": "quantitative", "title": "Percentage of Crops:"},
+      {"field": "Climate", "type": "ordinal", "title": "Climate Type:"}
+    ],
+    "color": {"field": "Climate", "type": "ordinal", "scale": {
+      "domain": [1, 2, 3, 4],
+      "range": ["#0079cadb", "#92CC4A", "#3B5323", "#00008B"]
+    }
+  },
+  "config": {
+    "axisX": {
+      "grid": false
+    }
+  }
+}
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/joelle02/3179_A2/main/countries%20of%20the%20world.csv"
+  },
+  "mark": {"type": "circle", "opacity": 0.7, "color": "#0079cadb", "size": 100},
+  "transform": [
+    {"filter": {"field": "Region", "selection": "regionClick"}},
+    {"filter": "datum['Literacy(%)'] > 0"} 
+  ],
+  "encoding": {
+    "x": {"field": "Literacy(%)", "type": "quantitative", "title": "Literacy Rate(%)" },
+    "y": {"field": "Phones(per_1000)", "type": "quantitative", "title": "Number of phones per 1000 people" },
+    "tooltip": [
+      { "field": "Country", "type": "nominal", "title": "Country" },
+      { "field": "Literacy(%)", "type": "quantitative", "title": "Literacy Rate" },
+      { "field": "Phones(per_1000)", "type": "quantitative", "title": "Phones(per 1000)" }
+    ]
+  },
+  "selection": {
+    "regionClick": {
+      "type": "single",
+      "fields": ["Region"],
+      "bind": {
+        "input": "select",
+        "name": "Region Selector",
+        "options": [
+          "ALL REGIONS","ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE",
+          "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA",
+          "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"
+        ]
+      }
+    }
+  }
+}

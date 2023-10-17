@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 730,
+  "height": 450,
+  "description": "A barchart showing the Net Migration of countries from different regions.",
+  "data": {"url": "https://raw.githubusercontent.com/joelle02/3179_A2/main/countries%20of%20the%20world.csv"},
+  "mark": {"type": "bar", "orient": "vertical"},
+  "transform": [
+    {
+      "filter": {
+        "field": "Region",
+        "selection": "regionClick"
+      }
+    }
+  ],
+  "encoding": {
+    "x": {"field": "Country", "type": "nominal"},
+    "y": {"field": "Net_migration", "type": "quantitative", "title": "Net Migration"},
+    "color": {"value": "#0079cadb"},
+    "tooltip": [ 
+      {"field": "Country", "type": "nominal", "title": "Country" },
+      { "field": "Net_migration", "type": "quantitative", "title": "Net Migration" }
+    ]
+  },
+  "config": {
+    "axisX": {
+      "labelAngle": 45 
+    }
+  },
+  "selection": {
+    "regionClick": {
+      "type": "single", 
+      "fields": ["Region"],
+      "init": "ASIA (EX. NEAR EAST)",
+      "bind": {
+        "input": "select", 
+        "name": "Region Selector",
+        "options": [
+          "ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE",
+          "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA",
+          "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"
+        ]
+      }
+    }
+  }
+}
